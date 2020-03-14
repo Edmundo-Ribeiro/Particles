@@ -142,7 +142,7 @@ class Particle{
 
 		if(this.p.mag() >= MAXDIST){
 			this.reflectAt(this.p);
-			this.v.mult(0.5)
+			this.v.mult(0.9)
 		}
 		
 	}

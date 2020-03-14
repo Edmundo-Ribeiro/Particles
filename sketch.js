@@ -43,7 +43,7 @@ function setup(){
     sliderTT.position(10, 40);
     sliderTc = createSlider(0,255,100,1);
     sliderTc.position(10, 70);
-    sliderD = createSlider(100,innerWidth/2,490,1);
+    sliderD = createSlider(100,innerWidth,490,1);
 		sliderD.position(10, 100);
 		sliderFr = createSlider(0,60,60,1);
 		sliderFr.position(10,130);
@@ -90,18 +90,15 @@ function setup(){
 
 		particleFormHide();
 		
-
-		
-
     q = [
     
     //  new Particle({position : {x:100, y:0},radius:5, charge:1,velocity:{x:0,y:-sqrt(C*5/1000)}, mass:10} )
     // ,new Particle({position : {x:0, y:0}, radius:5,charge:-5,velocity:{x:0,y:0}, mass:10000000} )
-     new Particle({position : {x:0, y:-100}, charge:5,velocity:{x:0,y:0}, mass:100} )
-    ,new Particle({position : {x:0, y:100}, charge:5,velocity:{x:0,y:0}, mass:100} )
-    ,new Particle({position : {x:100, y:0}, charge:5,velocity:{x:0,y:0}, mass:100} )
-    ,new Particle({position : {x:-100, y:0}, charge:5,velocity:{x:0,y:0}, mass:100} )
-    ,new Particle({position : {x:0, y:0}, charge:5,velocity:{x:0,y:0}, mass:100} )
+    //  new Particle({position : {x:0, y:-100}, charge:5,velocity:{x:0,y:0}, mass:100} )
+    // ,new Particle({position : {x:0, y:100}, charge:5,velocity:{x:0,y:0}, mass:100} )
+    // ,new Particle({position : {x:100, y:0}, charge:5,velocity:{x:0,y:0}, mass:100} )
+    // ,new Particle({position : {x:-100, y:0}, charge:5,velocity:{x:0,y:0}, mass:100} )
+    // ,new Particle({position : {x:0, y:0}, charge:5,velocity:{x:0,y:0}, mass:100} )
     // ,new Particle({position : {x:-200, y:0}, radius:5,charge:2,velocity:{x:0,y:-2}, mass:1} )
     // ,new Particle({position : {x:0, y:200}, radius:5,charge:-2,velocity:{x:-2,y:0}, mass:1} )
     
@@ -118,6 +115,8 @@ function setup(){
 
 
 function draw(){
+	fill(255)
+  // text(`${key} ${keyCode}`,100, 40);
 		C = sliderC.value();
     LIGHTSPEED = MAXDIST/(TRAVELTIME);
     TRAVELTIME = sliderTT.value();
@@ -134,21 +133,26 @@ function draw(){
         p.applyForce(q,forceLines);
         
     });
-    q.forEach((p)=>{p.run(100,0,0,0)});
+    q.forEach((p)=>{p.run(0,0,0,0)});
     
  
    
 }
 
 function mouseClicked(){
-    if((mouseX-width/2)**2+(mouseY-height/2)**2 <= MAXDIST**2 && keyIsPressed){
-			particleFormShow();
-        // var p = new Particle({mass: random(1,MAXMASS),position:{x:mouseX-width/2,y:mouseY-height/2}});
-        // // p.p = createVector(mouseX-width/2,mouseY-height/2);
-        // p.v = p5.Vector.random2D()  ;
-        // // p.m = random(1,MAXMASS);
-        // p.c = random(-MAXCHARGE,MAXCHARGE);
-      // q.push(createParticle());
+		if((mouseX-width/2)**2+(mouseY-height/2)**2 <= MAXDIST**2 && keyIsPressed){
+			
+			if(keyCode == 16){
+				particleFormShow();
+			}
+			else if(keyCode == 18){
+				var p = new Particle({mass: random(1,MAXMASS),
+															position:{x:mouseX-width/2,y:mouseY-height/2},
+															charge: random(-MAXCHARGE,MAXCHARGE),
+															velocity:{x:random(0,log(LIGHTSPEED)), y:random(0,log(LIGHTSPEED))}
+														});
+				q.push(p);
+			}
     }
 }
 
